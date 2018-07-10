@@ -17,5 +17,9 @@
     "@vue/eslint-config-airbnb": "^3.0.0-rc.3",
     "vue-template-compiler": "^2.5.16"
   },
-  "browserslist": ["> 1%", "last 2 versions", "not ie <= 8"]
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
 }
