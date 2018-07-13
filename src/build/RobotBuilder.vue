@@ -2,7 +2,7 @@
     <div class="content">
         <button class="add-to-cart" @click="addToCart()">Add To Cart</button>
         <div class="top-row">
-            <div class="top part" :class="[saleBorderClass]">
+            <div  :class="[saleBorderClass, 'top', 'part']">
                 <div class="robot-name">
                     {{selectedRobot.head.title}}
                     <span v-if="selectedRobot.head.onSale" class="sale">Sale!</span>
@@ -59,6 +59,7 @@
 
 <script>
 import availableParts from "../data/parts";
+import createdHookMixin from "./created-hook-mixin.js"
 
 function getPreviousValidIndex(index, length) {
   const depreciatedIndex = index - 1;
@@ -76,24 +77,20 @@ export default {
     return {
       availableParts,
       cart: [],
-      selectedHeadIndex: 0,
-      selectedLeftArmIndex: 0,
-      selectedTorsoIndex: 0,
-      selectedRightArmIndex: 0,
-      selectedBaseIndex: 0
     };
   },
+  mixins: [createdHookMixin],
   computed: {
     saleBorderClass() {
-      return selectedRobot.head.onSale ? 'sale-border' : '';
+      return this.selectedRobot.head.onSale ? 'sale-border' : '';
     },
     selectedRobot() {
       return {
-        head: availableParts.heads[this.selectedHeadIndex],
-        leftArm: availableParts.arms[this.selectedLeftArmIndex],
-        torso: availableParts.torsos[this.selectedTorsoIndex],
-        rightArm: availableParts.arms[this.selectedRightArmIndex],
-        base: availableParts.bases[this.selectedBaseIndex]
+        head: {},
+        leftArm: {},
+        torso: {},
+        rightArm: {},
+        base: {}
       };
     },
     headBorderStyle() {
@@ -103,66 +100,6 @@ export default {
     }
   },
   methods: {
-    selectNextHead() {
-      this.selectedHeadIndex = getNextValidIndex(
-        this.selectedHeadIndex,
-        availableParts.heads.length
-      );
-    },
-    selectPreviousHead() {
-      this.selectedHeadIndex = getPreviousValidIndex(
-        this.selectedHeadIndex,
-        availableParts.heads.length
-      );
-    },
-    selectNextLeftArm() {
-      this.selectedLeftArmIndex = getNextValidIndex(
-        this.selectedLeftArmIndex,
-        availableParts.arms.length
-      );
-    },
-    selectPreviousLeftArm() {
-      this.selectedLeftArmIndex = getPreviousValidIndex(
-        this.selectedLeftArmIndex,
-        availableParts.arms.length
-      );
-    },
-    selectNextTorso() {
-      this.selectedTorsoIndex = getNextValidIndex(
-        this.selectedTorsoIndex,
-        availableParts.torsos.length
-      );
-    },
-    selectPreviousTorso() {
-      this.selectedTorsoIndex = getPreviousValidIndex(
-        this.selectedTorsoIndex,
-        availableParts.torsos.length
-      );
-    },
-    selectNextRightArm() {
-      this.selectedRightArmIndex = getNextValidIndex(
-        this.selectedRightArmIndex,
-        availableParts.arms.length
-      );
-    },
-    selectPreviousRightArm() {
-      this.selectedRightArmIndex = getPreviousValidIndex(
-        this.selectedRightArmIndex,
-        availableParts.arms.length
-      );
-    },
-    selectNextBase() {
-      this.selectedBaseIndex = getNextValidIndex(
-        this.selectedBaseIndex,
-        availableParts.bases.length
-      );
-    },
-    selectPreviousBase() {
-      this.selectedBaseIndex = getPreviousValidIndex(
-        this.selectedBaseIndex,
-        availableParts.arms.length
-      );
-    },
     addToCart() {
       const robot = this.selectedRobot;
       const cost =
@@ -177,7 +114,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .part {
   position: relative;
   width: 165px;
@@ -185,8 +122,10 @@ export default {
   border: 3px solid #aaa;
 }
 
-.part img {
-  width: 165px;
+.part {
+  img {
+    width: 165px;
+  }
 }
 
 .top-row {
