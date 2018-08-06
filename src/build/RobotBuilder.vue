@@ -1,6 +1,8 @@
 <template>
     <div class="content">
+    
         <div class="preview">
+          <CollapsibleSection>
       <div class="preview-content">
         <div class="top-row">
           <img :src="selectedRobot.head.src"/>
@@ -13,8 +15,10 @@
         <div class="bottom-row">
           <img :src="selectedRobot.base.src"/>
         </div>
+
         <button class="add-to-cart" @click="addToCart()">Add To Cart</button>
       </div>
+      </CollapsibleSection>
     </div>
         
         <div class="top-row">
@@ -59,6 +63,7 @@
 import availableParts from "../data/parts";
 import createdHookMixin from "./created-hook-mixin.js"
 import PartSelector from "./PartSelector.vue";
+import CollapsibleSection from "../shared/CollapsibleSection.vue"
 
 function getPreviousValidIndex(index, length) {
   const depreciatedIndex = index - 1;
@@ -72,7 +77,7 @@ function getNextValidIndex(index, length) {
 
 export default {
   name: "RobotBuilder",
-  components:{PartSelector},
+  components:{PartSelector, CollapsibleSection},
   data() {
     return {
       availableParts,
